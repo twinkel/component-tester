@@ -64,6 +64,7 @@ void lcd_enable(void)
     _delay_us(10);                   // kurze Pause
    // Bei Problemen ggf. Pause gem‰ﬂ Datenblatt des LCD Controllers verl‰ngern
    // http://www.mikrocontroller.net/topic/80900
+    _delay_us(20);  
    LCD_PORT &= ~(1<<LCD_EN1);
 }
  

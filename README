@@ -1,4 +1,16 @@
-This project was found here:
+Component tester for atmega processors. This tester tests and measures:
+diodes, fets, capacitors, Resistors, transistors
+
+project changes:
+4 jan 2012:
+  - modified to run on ATmega168/328 @ 16MHz
+  - disable watchdog, to comply with arduino loader
+  - disable SWuart invert
+
+This project can be found on:
+  https://github.com/twinkel/component-tester
+
+This project was orinally found on:
   http://www.mikrocontroller.net/topic/131804
 
 The project initiator and source code owner is Markus F.

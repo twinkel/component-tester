@@ -15,7 +15,7 @@
 #elif defined(__AVR_ATmega88__)
 	#define MCU_STATUS_REG MCUCR
 	#define UseM8
-#elif defined(__AVR_ATmega168__)
+#elif defined(__AVR_ATmega168__) || defined (__AVR_ATmega328P__)
 	#define MCU_STATUS_REG MCUCR
 	#define UseM8
 #else
@@ -283,7 +283,7 @@ unsigned char DiodeIcon[] EEMEM = {4,31,31,14,14,4,31,4,0};	//Dioden-Icon
 //Ende der EEPROM-Strings
 
 //Watchdog
-#define WDT_enabled
+//#define WDT_enabled
 /* Wird das Define "WDT_enabled" entfernt, wird der Watchdog beim Programmstart
  nicht mehr aktiviert. Das ist für Test- und Debuggingzwecke sinnvoll.
  Für den normalen Einsatz des Testers sollte der Watchdog aber unbedingt aktiviert werden!

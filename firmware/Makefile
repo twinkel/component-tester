@@ -6,13 +6,13 @@
 PROJECT = TransistorTestNew
 # available languages are: LANG_ENGLISH, LANG_GERMAN, LANG_POLISH, LANG_CZECH, LANG_SLOWAK
 UI_LANGUAGE = LANG_ENGLISH
-MCU = atmega8
+MCU = atmega328p
 TARGET = TransistorTestNew.elf
 CC = avr-gcc
 
 # programmer type
-PROGRAMMER=jtag2isp
-PORT=usb
+PROGRAMMER=arduino
+PORT=/dev/ttyUSB0
 
 CPP = avr-g++
 
@@ -21,7 +21,7 @@ COMMON = -mmcu=$(MCU)
 
 ## Compile options common for all C compilation units.
 CFLAGS = $(COMMON)
-CFLAGS += -Wall -gdwarf-2 -std=gnu99 -DF_CPU=1000000UL -Os -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
+CFLAGS += -Wall -gdwarf-2 -std=gnu99 -DF_CPU=16000000UL -Os -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
 CFLAGS += -MD -MP -MT $(*F).o -MF dep/$(@F).d
 
 ## Assembly specific flags
@@ -89,11 +89,11 @@ clean:
 
 # device programming
 fuses-m8:
-	avrdude -c $(PROGRAMMER) -B 10.0 -p m8 -P $(PORT) -F -U lfuse:w:0x01:m -U hfuse:w:0xd9:m
+	avrdude -c $(PROGRAMMER) -B 10.0 -p $(MCU) -P $(PORT) -F -U lfuse:w:0x01:m -U hfuse:w:0xd9:m
 
 fuses-m48:
-	avrdude -c $(PROGRAMMER) -B 10.0 -p m8 -P $(PORT) -F -U lfuse:w:0x42:m -U hfuse:w:0xdc:m
+	avrdude -c $(PROGRAMMER) -B 10.0 -p $(MCU) -P $(PORT) -F -U lfuse:w:0x42:m -U hfuse:w:0xdc:m
 
 upload:
-	avrdude -c $(PROGRAMMER) -B 10.0 -p m8 -P $(PORT) -F -U flash:w:./TransistorTestNew.hex:a \
+	avrdude -c $(PROGRAMMER) -B 10.0 -p $(MCU) -P $(PORT) -F -U flash:w:./TransistorTestNew.hex:a \
 	-U eeprom:w:./TransistorTestNew.eep:a

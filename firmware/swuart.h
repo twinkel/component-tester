@@ -13,7 +13,7 @@ Das ist eine einfache, aber etwas unsaubere Lösung...
 
 Ist SWUART_INVERT definiert, arbeitet der UART in invertierter Betriebsart.
 */
-#define SWUART_INVERT
+//#define SWUART_INVERT
 
 #define TxD PC3	//TxD-Pin des Software-UART; muss an Port C sein!
 
