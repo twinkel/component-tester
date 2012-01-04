@@ -1,11 +1,21 @@
 Component tester for atmega processors. This tester tests and measures:
 diodes, fets, capacitors, Resistors, transistors
 
+ToDo:
+  - make it bootloader tolerant
+  - capacitors measures factor 14 too big
+  - baudrate = 38400 (factor 16), does not use F_CPU
+  - further issues with 16MHz crystal?
+  - pin swap sometimes erratic (HW problem?)
+  - check battery measurement = 20.46V, no divider
+  - swap pins to use hardware serial port
+
 project changes:
 4 jan 2012:
   - modified to run on ATmega168/328 @ 16MHz
   - disable watchdog, to comply with arduino loader
   - disable SWuart invert
+  - added battery voltage display before each measurement
 
 This project can be found on:
   https://github.com/twinkel/component-tester

@@ -92,8 +92,8 @@
 		L_CAPACITY_FACTOR ist für die Messung mit 680-Ohm-Widerstand (hohe Kapazität)
 		Der gesamte Messbereich ist ca. 0,2nF bis 7300µF.
 	*/
-	unsigned int H_CAPACITY_FACTOR EEMEM = 394;
-	unsigned int L_CAPACITY_FACTOR EEMEM = 283;
+	unsigned int H_CAPACITY_FACTOR EEMEM = 241; // was 394;
+	unsigned int L_CAPACITY_FACTOR EEMEM = 167; // was 283;
 #endif
 
 
@@ -450,9 +450,41 @@ int main(void) {
 	//Versorgungsspannung messen
 	ReadADC(5 | (1<<REFS1));	//Dummy-Readout
 	hfe[0] = ReadADC(5 | (1<<REFS1)); 	//mit interner Referenz
+
+// xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+//          Eingefügt
+// Anzeige der Versorgungsspannung
+// Spannungsteiler wurde so gewählt das am ADC Auflösung 0,02V beträgt
+// z.B. 420 entspricht 8,40V
+// ATMEGA8 R = 10k / 1,5kOhm
+// ATMEGA88 R = 10k / 600 Ohm
+	Line2();
+	lcd_string ("Batt = ");
+	ra= hfe[0] / 50;				// (ra= 2*hfe[0] / 100) Ganze Volt
+	rb = 2*hfe[0] - ra* 100;		// 1/100 V
+	lcd_string(utoa(ra, outval, 10));
+	lcd_string (",");
+	if (rb <10) {					// "0" einfügen wenn z.B. 9,04V
+		lcd_string ("0");
+		}
+	lcd_string(utoa(rb, outval, 10));
+	lcd_string ("V");	
+//	lcd_string (hfe1);
+	_delay_ms(1000);				//Wert 1 sec anzeigen
+
+	Line1();
+// xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+//          Änderungen 
+
+#if 1
+	if (hfe[0] < 410) {				//Vcc < 8,2V; Warnung anzeigen
+		lcd_eep_string(Bat);		//Anzeige: "Batterie"
+		if(hfe[0] < 360) {					//Vcc <7,2V; zuverlässiger Betrieb nicht mehr möglich
+#else
 	if (hfe[0] < 650) {			//Vcc < 7,6V; Warnung anzeigen
 		lcd_eep_string(Bat);		//Anzeige: "Batterie"
 		if(hfe[0] < 600) {					//Vcc <7,15V; zuverlässiger Betrieb nicht mehr möglich
+#endif
 			lcd_eep_string(BatEmpty);		//Batterie leer!
 			_delay_ms(1000);
 			PORTD = 0;	//abschalten
